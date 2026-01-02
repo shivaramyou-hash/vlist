@@ -6,6 +6,7 @@ import {
   userLogin as login,
   fetchUserData,
 } from '../../redux/reducers/user.reducer';
+import { useEffect } from 'react';
 
 const useLogin = () => {
   const dispatch = useDispatch();
@@ -18,15 +19,7 @@ const useLogin = () => {
   //   });
 
   const [userLogin, { data: userLoginData, loading: userLoginLoading }] =
-    useLazyQuery(USER_LOGIN, {
-      onCompleted: (res) => {
-        if (res?.userLogin) {
-          dispatch(login(res?.userLogin || null));
-          window.location.reload();
-        }
-      },
-      onError: () => {},
-    });
+    useLazyQuery(USER_LOGIN);
 
   const [getUserById, { data: getUserByIdData, loading: getUserByIdLoading }] =
     useLazyQuery(GET_USER_BY_ID, {
@@ -34,10 +27,13 @@ const useLogin = () => {
       variables: {
         userId: 'token',
       },
-      onCompleted: (res) => {
-        dispatch(fetchUserData(res?.getUserById || null));
-      },
     });
+
+  useEffect(() => {
+    if (getUserByIdData?.getUserById) {
+      dispatch(fetchUserData(getUserByIdData?.getUserById || null));
+    }
+  }, [getUserByIdData, dispatch]);
 
   return {
     loading: userLoginLoading || getUserByIdLoading,

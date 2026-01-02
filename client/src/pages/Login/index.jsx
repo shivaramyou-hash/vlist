@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { userLogin as login } from '../../redux/reducers/user.reducer';
 import {
   Typography,
   Container,
@@ -31,6 +34,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { userLogin, userLoginData, loading } = useLogin();
 
@@ -82,7 +87,9 @@ const Login = () => {
       userLoginData?.userLogin?.userData !== null &&
       !!userLoginData
     ) {
+      dispatch(login(userLoginData?.userLogin || null));
       toast.success(userLoginData?.userLogin?.message);
+      navigate('/');
     } else if (
       (userLoginData?.userLogin?.token === null ||
         userLoginData?.userLogin?.token === undefined) &&
@@ -92,7 +99,7 @@ const Login = () => {
     ) {
       toast.error(userLoginData?.userLogin?.message || 'Login failed');
     }
-  }, [userLoginData]);
+  }, [userLoginData, dispatch, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
