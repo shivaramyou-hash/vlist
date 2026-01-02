@@ -69,7 +69,9 @@ const runServer = async () => {
 
   const port = process.env.PORT || 4000;
 
-  await new Promise((resolve) => httpServer.listen({ port }, resolve));
+ await new Promise((resolve) =>
+  httpServer.listen(port, "0.0.0.0", resolve)
+);
   console.log(`🚀 Server ready at http://localhost:${port}/api/v1/graphql`);
 };
 
