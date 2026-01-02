@@ -1,0 +1,13 @@
+.view-consticy-searchdisplay {
+  background-color: var(--secondary-background1);
+  width: 90% !important;
+  margin-left: 6px;
+}
+
+.view-client-consticy {
+  display: flex;
+}
+
+.search-client-consticy {
+  margin-left: 20px !important;
+}

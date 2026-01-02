@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  /*primary buttons */
+  --primary-color:#FFC518;
+  --primary-background: #ffc518;
+  --white-color: #ffffff;
+  --primary-border: 1px solid #707070;
+  --primary-border-radius: 2px;
+  --primary-blue-color: #0000ff;
+  --primary-background-green-color: #32a895;
+  --primary-black-color: #000000;
+  --primary-yellow-color: #ffc518b3;
+  --primary-gray-color:#dddddd;
+  --primary-dark-gray-color: #686868;
+  --primary-font-color: #000000;
+  --secondary-font-color: #ffffff;
+  --disabled-font-color: #858585;
+  --primary-background-gray-color: #efefef;
+  --primary-background-lightgray-color: #F1F1F1;
+  --primary-background-gray-color1: #DDDDDD;
+  --primary-background-gray-color2: #00000029;
+  --primary-background-white-color: #fff;
+  --primary-red-color: #f44336;
+  --primary-sonic-color: #757575;
+  --taxbox-border-color: #989898;
+  
+  /* secondary buttons */
+  --secondary-background: #000000;
+  --secondary-background1:#f6f6f6;
+  --secondary-border: #707070;
+  --font-weight:600
+  /* disabled button */
+  --disabled-background: #d6d6d6;
+  --disabled-border: 1px solid #d6d6d6;
+
+  --primary-font: 'Epilogue',sans-serif;
+  --font-weight-200:200;
+  --font-weight-300:300;
+  --font-weight-400:400;
+  --font-weight-500:500;
+  --font-weight-600:600;
+  --font-weight-700:700;
+
+  /* card */
+  --card-background: #ffffff 0% 0% no-repeat padding-box;
+  --card-box-shadow: 6px 6px 13px #ffc518b3;
+  --card-border: 1px solid #f5f5f5;
+  --card-borderRadius: 5px;
+  --card-width: 189px;
+  --card-height: 204px;
+  --card-border1:1px solid #BFBFBF;
+  --card-box-shadow1:9px 9px 15px #00000029;
+  
+
+  /* dropdown selector */
+  --selector-width: 92px;
+  --selector-height: 32px;
+  --selector-background: #ffffff 0% 0% no-repeat padding-box;
+  --selector-border: 1px solid #ffc518;
+  --selector-border-radius: 2px;
+  /* Box shadow */
+  --box-shadow: 10px 10px 10px #ffc518b3;
+  --box-shadow1: 6px 6px 15px #FFC51885;
+
+
+
+
+  /* font size */
+  --font-size-15: 15px;
+  --font-size-18:18px;
+  --font-size-14:14px;
+  --font-size-24:24px;
+  --font-size-26:26px;
+
+
+  /* search background color */
+  --search-background-color:#DDDDDD 0% 0% no-repeat padding-box;
+
+
+  /*color */
+    --red-color: #C32525;
+
+    /* Text Transform */
+    --text-transform: capitalize;
+}
+
+
+
+
+* {
+font-family: var(--primary-font)!important;
+}
+
+h3{
+  font-weight: 500;
+}
+
+
+

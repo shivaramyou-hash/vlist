@@ -1,0 +1,18 @@
+@import '../themes/style.css';
+.confirm-modal-buttons-con {
+  display: flex !important;
+  justify-content: center !important;
+  padding-bottom: 30px !important;
+}
+.confirm-modal-cancel-btn {
+  border-radius: 3px;
+  font-weight: var(--font-weight-500);
+  font-size: 12px;
+  padding: 4px 12px 4px 12px;
+}
+.confirm-modal-delete-btn {
+  border-radius: 3px;
+  font-weight: var(--font-weight-500);
+  font-size: 12px;
+  padding: 4px 12px 4px 12px;
+}

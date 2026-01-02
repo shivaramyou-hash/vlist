@@ -1,0 +1,15 @@
+module.exports = {
+  USERS: "users",
+  // VOTER: "voters",
+  VOTER: "TG-17-58",
+  STATES: "states",
+  DISTRICTS: "districts",
+  ASSEMBLYCONSTITUENCIES: "assemblyConstituencies",
+  POLLING_STATIONS: "pollingStations",
+  ASSIGNED_CONST: "assignedConst",
+  ASSEMBLY_CONST: "assemblyConst",
+  ROLES: "roles",
+  REFERENCE_TABLE: "reference_table",
+  EXTRACTED: "extracted",
+  EXTRACTED_INPUT: "extractedInput",
+};

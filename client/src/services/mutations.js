@@ -1,0 +1,74 @@
+import {
+  USER_LOGIN,
+  GET_USER_BY_ID,
+  GET_ALL_USERS,
+  CREATE_USER,
+  UPDATE_USER,
+  DELETE_USER,
+} from '../services/mutations/users/users.mutaions';
+
+import { GET_ALL_STATES } from './mutations/states/states.mutations';
+
+import { GET_DISTRICTS_BY_STATES } from './mutations/districts/districts.mutations';
+
+import {
+  CREATE_VOTER,
+  GET_ALL_VOTERS,
+  GET_VOTERS_POLLING_STATION,
+  UPDATE_SINGLE_VOTER,
+  GET_VOTERS_ACCESS_BY_POLLING_STATION,
+} from './voter/voter.mutations';
+import {
+  GET_CONSTITUTIONS_BY_DISTRICTS,
+  CREATE_ASSIGNED_CONSTITY,
+  GET_ASSEIGNED_CONSTITUTIONS_BY_DISTRICTS,
+} from './mutations/assemblyConstituency/assemblyConstituency.mutations';
+import {
+  CREATE_ROLES,
+  GET_ROLES,
+  GET_ROLE_BY_ID,
+  UPDATE_ROLE,
+  DELETE_ROLE,
+} from './mutations/roles/roles.mutations';
+import {
+  CREATE_POLLING_STATIONS,
+  GET_POLLING_STATIONS,
+  GET_ASSIGNED_POLLING_STATIONS,
+} from './mutations/pollingStations/pollingStations.mutations';
+
+import {
+  GET_ASSIGNEDCONSTTUTIONS_BY_USER,
+  DELETE_ASSIGNED_CONSTITUENCY,
+} from './mutations/assignedConst/assignedConst.mutations';
+
+import { GET_EXTRACTED_VOTERLIST_BY_USERID } from './mutations/extractedVoter/extractedVoter.mutations';
+
+export {
+  USER_LOGIN,
+  GET_USER_BY_ID,
+  CREATE_VOTER,
+  GET_ALL_VOTERS,
+  GET_VOTERS_ACCESS_BY_POLLING_STATION,
+  GET_ALL_USERS,
+  CREATE_USER,
+  UPDATE_USER,
+  DELETE_USER,
+  GET_ALL_STATES,
+  GET_DISTRICTS_BY_STATES,
+  GET_CONSTITUTIONS_BY_DISTRICTS,
+  GET_POLLING_STATIONS,
+  CREATE_ASSIGNED_CONSTITY,
+  CREATE_ROLES,
+  GET_ROLE_BY_ID,
+  GET_ROLES,
+  DELETE_ROLE,
+  UPDATE_ROLE,
+  CREATE_POLLING_STATIONS,
+  GET_VOTERS_POLLING_STATION,
+  GET_ASSIGNED_POLLING_STATIONS,
+  GET_ASSEIGNED_CONSTITUTIONS_BY_DISTRICTS,
+  UPDATE_SINGLE_VOTER,
+  GET_ASSIGNEDCONSTTUTIONS_BY_USER,
+  DELETE_ASSIGNED_CONSTITUENCY,
+  GET_EXTRACTED_VOTERLIST_BY_USERID,
+};

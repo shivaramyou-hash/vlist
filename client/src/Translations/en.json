@@ -1,0 +1,23 @@
+{
+ "CREATE_USER": "Create User",
+  "PASSWORD": "Password",
+  "Confirm_Password": "Confirm Password" ,
+  "VIEW_USER":"View User",
+  "ERROR": "We are unable to complete your request. Please reach out to our support team for further assistance",
+  "SEARCH_USER": "Search User",
+  "EDIT_USER":"Edit User",
+  "USER_ID":"User ID",
+  "ASSIGN_CONSTITUENCY":"Assign Constituency",
+  "SEARCH_BY_CONSTITUENCY":"Search By Name or Epic or  Serial",
+  "ROLES":"Roles",
+  "EDIT_ROLES":"Edit Role",
+  "Please_fill": "Please fill out all the fields",
+  "SURE_DELETE": "Are you sure you want to delete",
+  "DISTRICT": "District",
+  "STATE":"State",
+  "ASSEMBLY": "Assembly",
+  "POLLING": "Polling Stations",
+  "DISTRICT_NAME": "District Name",
+  "WRITE_ACCESS":"Write Access"
+  
+}

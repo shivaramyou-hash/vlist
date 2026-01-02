@@ -1,0 +1,53 @@
+{
+  "name": "advance-level-folder-structure",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.9.9",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/lab": "^5.0.0-alpha.169",
+    "@mui/material": "^5.15.14",
+    "@mui/x-data-grid": "^7.1.1",
+    "@mui/x-data-grid-generator": "^7.1.1",
+    "@reduxjs/toolkit": "^2.2.2",
+    "axios": "^1.10.0",
+    "graphql": "^16.8.1",
+    "i18next": "^23.10.1",
+    "install": "^0.13.0",
+    "lodash": "^4.17.21",
+    "lucide-react": "^0.525.0",
+    "moment": "^2.30.1",
+    "npm": "^10.5.0",
+    "papaparse": "^5.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^14.1.0",
+    "react-jwt": "^1.2.1",
+    "react-loader-spinner": "^6.1.6",
+    "react-redux": "^9.1.0",
+    "react-router": "^6.15.0",
+    "react-router-dom": "^6.15.0",
+    "react-toastify": "^10.0.5",
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "vite": "5.2.7"
+  }
+}

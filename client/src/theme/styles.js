@@ -1,0 +1,16 @@
+export const colors = {
+  SECONDARY_COLOR: '#000000',
+  PRIMARY_COLOR: '#FFC518',
+  WHITE_COLOR: '#FFFFFF',
+  BLUE_COLOR: '#0000ff',
+  LIGHT_YELLOW: '#F5D268',
+  LIGHT_GREY: '#BFBFBF',
+  LIGHT_GREY1: '#F1F1F1',
+  BLACK_COLOR: '#000000',
+};
+
+export const font = {
+  PRIMARY_FONT_SIZE: '19px',
+  SECONDARY_FONT_SIZE: '25px',
+  CARD_TITLE_FONT_SIZE: '24px',
+};

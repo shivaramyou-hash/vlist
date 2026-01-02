@@ -1,0 +1,40 @@
+steps:
+  # Step 1: Build Docker image from /server directory
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/vlist-backend", "."]
+    dir: server
+
+  # Step 2: Push Docker image to Container Registry or Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/vlist-backend"]
+
+  # Step 3: Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - vlist-backend
+      - --image=gcr.io/$PROJECT_ID/vlist-backend
+      - --region=asia-south1
+      - --platform=managed
+      - --allow-unauthenticated
+      - --port=8080
+      - --set-env-vars=NODE_ENV=production
+      - --set-env-vars=CLOUD_SQL_CONNECTION_NAME=hrm010725:asia-south1:hrm010725
+      - --set-env-vars=DB_HOST=/cloudsql/hrm010725:asia-south1:hrm010725
+      - --set-env-vars=DB_NAME=hrm-dev
+      - --set-env-vars=DB_USER=postgres
+      - --set-env-vars=DB_PASSWORD=<ZpVMIG{KpB2efxu
+      - --set-env-vars=DB_PORT=5432
+      - --set-env-vars=DB_CONNECT_TIMEOUT=30
+      - --set-env-vars=ENVIRONMENT=production
+      - --add-cloudsql-instances=hrm010725:asia-south1:hrm010725
+
+images:
+  - gcr.io/$PROJECT_ID/vlist-backend
+
+timeout: 1800s
+
+options:
+  logging: CLOUD_LOGGING_ONLY

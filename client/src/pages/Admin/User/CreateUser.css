@@ -1,0 +1,63 @@
+@import '../../../components/themes/style.css';
+
+.create-user-title {
+  font-size: var(--font-size-18) !important;
+  font-weight: var(--font-weight-500);
+  color: var(--primary-color);
+  margin: 15px;
+}
+
+.job-title {
+  color: var(--primary-color);
+  font-family: var(--primary-font);
+  font-weight: var(--font-weight-500);
+  font-size: var(--font-size-24);
+}
+.view-user-button {
+  float: right;
+}
+.editbutton {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.submitbutton {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 25px;
+}
+.eyetextfield {
+  margin-bottom: 0px;
+  display: flex;
+  border: var(--primary-color) !important;
+  border-radius: 4px;
+  padding: 3px;
+}
+.MuiInput-underline:after {
+  border-bottom: none !important;
+}
+.MuiInput-underline:before {
+  border-bottom: none !important;
+}
+.title-imp {
+  color: var(--red-color);
+}
+
+.password-error {
+  color: var(--red-color);
+  font-size: 12px;
+  margin-left: 15px;
+}
+
+.doc-error {
+  color: #d32f2f;
+  font-size: small;
+}
+
+.fileclass {
+  font-size: 12px !important;
+}
+
+.resend-Email-text-user {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-600);
+}
