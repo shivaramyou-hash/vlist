@@ -15,7 +15,6 @@ import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import { stableSort } from '@/utils/votersTable/votersTableUtill';
 import { HrmBlackBtn } from '@/components/Button/Buttons';
-import TextFieldComponent from '@/components/Inputs/TextFieldComponent';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -33,81 +32,18 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
-// function stableSort(array, comparator) {
-//   const stabilizedThis = array?.map((el, index) => [el, index]);
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0]);
-//     if (order !== 0) {
-//       return order;
-//     }
-//     return a[1] - b[1];
-//   });
-//   return stabilizedThis.map((el) => el[0]);
-// }
-
 const headCells = [
-  {
-    id: 'EPIC',
-    numeric: false,
-    disablePadding: true,
-    label: 'EPIC',
-  },
-  {
-    id: 'SLNo',
-    numeric: true,
-    disablePadding: false,
-    label: 'SL No',
-  },
-  {
-    id: 'voterName',
-    numeric: true,
-    disablePadding: false,
-    label: 'Voter Name',
-  },
-  {
-    id: 'age',
-    numeric: true,
-    disablePadding: false,
-    label: 'Age',
-  },
-  {
-    id: 'gender',
-    numeric: true,
-    disablePadding: false,
-    label: 'Gender',
-  },
-  {
-    id: 'address',
-    numeric: true,
-    disablePadding: false,
-    label: 'Address',
-  },
-  {
-    id: 'mobileNumber',
-    numeric: true,
-    disablePadding: false,
-    label: 'Mobile Number',
-  },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: 'Status',
-  },
-  {
-    id: 'notes',
-    numeric: true,
-    disablePadding: false,
-    label: 'Notes',
-  },
-  {
-    id: '',
-    label: '',
-  },
+  { id: 'EPIC', numeric: false, disablePadding: true, label: 'EPIC' },
+  { id: 'SLNo', numeric: true, disablePadding: false, label: 'SL No' },
+  { id: 'voterName', numeric: true, disablePadding: false, label: 'Voter Name' },
+  { id: 'age', numeric: true, disablePadding: false, label: 'Age' },
+  { id: 'gender', numeric: true, disablePadding: false, label: 'Gender' },
+  { id: 'houseNumber', numeric: true, disablePadding: false, label: 'House Number' },
+  // { id: 'address', numeric: true, disablePadding: false, label: 'Address' },
+  // { id: 'mobileNumber', numeric: true, disablePadding: false, label: 'Mobile Number' },
+  // { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
+  // { id: 'notes', numeric: true, disablePadding: false, label: 'Notes' },
+  { id: 'actions', label: 'Actions' },
 ];
 
 function EnhancedTableHead(props) {
@@ -118,19 +54,25 @@ function EnhancedTableHead(props) {
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow sx={{ backgroundColor: '#1e40af' }}>
         {headCells.map((headCell, index) => (
           <TableCell
             key={index}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ pl: 2 }}
+            sx={{ pl: 2, color: 'white', fontWeight: 'bold' }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
+              sx={{
+                '&.MuiTableSortLabel-root': { color: 'white' },
+                '&.MuiTableSortLabel-root:hover': { color: '#e0e7ff' },
+                '&.Mui-active': { color: 'white' },
+                '& .MuiTableSortLabel-icon': { color: 'white !important' },
+              }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -157,27 +99,16 @@ EnhancedTableHead.propTypes = {
 
 EnhancedTable.propTypes = {
   votersList: PropTypes.any,
-  isEdit: PropTypes.any,
-  setIsEdit: PropTypes.any,
-  handleUpdateVoter: PropTypes.any,
+  handleEditVoter: PropTypes.func, // Changed prop name to be clearer
 };
 
-export default function EnhancedTable({ votersList, handleUpdateVoter }) {
+export default function EnhancedTable({ votersList, handleEditVoter }) {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('SLNo');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(200);
-  const [notes, setNotes] = React.useState('');
-  const [status, setStatus] = React.useState('');
-  const [mobileNumber, setMobileNumber] = React.useState('');
-  const [address, setAddress] = React.useState('');
-  const [gender, setGender] = React.useState('');
-  const [age, setAge] = React.useState('');
-  const [voterName, setVoterName] = React.useState('');
-
-  const [isEdit, setEdit] = React.useState('');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -219,7 +150,6 @@ export default function EnhancedTable({ votersList, handleUpdateVoter }) {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0
       ? Math.max(
@@ -227,45 +157,6 @@ export default function EnhancedTable({ votersList, handleUpdateVoter }) {
           (1 + page) * rowsPerPage - (votersList?.voters?.length || 0)
         )
       : 0;
-
-  const handleEdit = (row) => {
-    setEdit(row?.EPIC);
-    setNotes(row?.notes);
-    setStatus(row?.status);
-    setMobileNumber(row?.mobileNumber);
-    setAddress(row?.address);
-    setGender(row?.gender);
-    setAge(row?.age);
-    setVoterName(row?.voterName);
-  };
-
-  const handleSave = (e, index) => {
-    const updatedVotersList = [...votersList?.voters];
-    const voterToUpdate = updatedVotersList[index];
-
-    // Modify the voter object as needed
-    voterToUpdate.status = status;
-    voterToUpdate.address = address;
-    voterToUpdate.gender = gender;
-    voterToUpdate.notes = notes;
-    voterToUpdate.mobileNumber = mobileNumber;
-    voterToUpdate.age = age;
-    voterToUpdate.voterName = voterName;
-
-    handleUpdateVoter(voterToUpdate);
-    setEdit('');
-  };
-
-  const handleResetVoter = () => {
-    setEdit('');
-    setNotes('');
-    setStatus('');
-    setMobileNumber('');
-    setAddress('');
-    setGender('');
-    setAge('');
-    setVoterName('');
-  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -304,17 +195,8 @@ export default function EnhancedTable({ votersList, handleUpdateVoter }) {
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
-                      sx={{ cursor: 'pointer' }}
+                      sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#f0f9ff !important' } }}
                     >
-                      {/* <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell> */}
                       <TableCell
                         component="th"
                         id={labelId}
@@ -325,134 +207,24 @@ export default function EnhancedTable({ votersList, handleUpdateVoter }) {
                         {row.EPIC}
                       </TableCell>
                       <TableCell align="right">{row.SLNo}</TableCell>
-                      <TableCell align="right">
-                        {isEdit === row.EPIC ? (
-                          <TextFieldComponent
-                            value={voterName || ''}
-                            name="voterName"
-                            className="payroll-input"
-                            placeholder="Voter Name"
-                            onChange={(e) => {
-                              setVoterName(e.target.value);
-                            }}
-                          />
-                        ) : (
-                          row?.voterName || '-'
-                        )}
-                      </TableCell>
-                      <TableCell align="right">
-                        {isEdit === row.EPIC ? (
-                          <TextFieldComponent
-                            value={age || ''}
-                            name="age"
-                            className="payroll-input"
-                            placeholder="Age"
-                            onChange={(e) => {
-                              setAge(e.target.value);
-                            }}
-                          />
-                        ) : (
-                          row?.age || '-'
-                        )}
-                      </TableCell>
-                      <TableCell align="right">
-                        {isEdit === row.EPIC ? (
-                          <TextFieldComponent
-                            value={gender || ''}
-                            name="gender"
-                            className="payroll-input"
-                            placeholder="Gender"
-                            onChange={(e) => {
-                              setGender(e.target.value);
-                            }}
-                          />
-                        ) : (
-                          row?.gender || '-'
-                        )}
-                      </TableCell>
-                      <TableCell align="right">
-                        {isEdit === row.EPIC ? (
-                          <TextFieldComponent
-                            value={address || ''}
-                            name="address"
-                            className="payroll-input"
-                            placeholder="Address"
-                            onChange={(e) => {
-                              setAddress(e.target.value);
-                            }}
-                          />
-                        ) : (
-                          row?.address || '-'
-                        )}
-                      </TableCell>
-
-                      <TableCell align="right">
-                        {isEdit === row.EPIC ? (
-                          <TextFieldComponent
-                            value={mobileNumber || ''}
-                            name="mobileNumber"
-                            className="payroll-input"
-                            placeholder="Mobile Number"
-                            onChange={(e) => {
-                              setMobileNumber(e.target.value);
-                            }}
-                          />
-                        ) : (
-                          row?.mobileNumber || '-'
-                        )}
-                      </TableCell>
-                      <TableCell align="right">
-                        {isEdit === row.EPIC ? (
-                          <TextFieldComponent
-                            value={status || ''}
-                            name="status"
-                            className="payroll-input"
-                            placeholder="Status"
-                            onChange={(e) => {
-                              setStatus(e.target.value);
-                            }}
-                          />
-                        ) : (
-                          row?.status || '-'
-                        )}
-                      </TableCell>
-                      <TableCell align="right">
-                        {isEdit === row.EPIC ? (
-                          <TextFieldComponent
-                            value={notes || ''}
-                            name="notes"
-                            className="payroll-input"
-                            placeholder="Notes"
-                            onChange={(e) => {
-                              setNotes(e.target.value);
-                            }}
-                          />
-                        ) : (
-                          row?.notes || '-'
-                        )}
-                      </TableCell>
-                      {votersList?.writeAccess && (
-                        <TableCell className="payroll-table-val-align">
-                          {isEdit === row?.EPIC ? (
-                            <HrmBlackBtn
-                              onClick={() => handleSave(row, index)}
-                              label={'Save'}
-                            />
-                          ) : (
-                            <HrmBlackBtn
-                              onClick={() => handleEdit(row)}
-                              label={'Edit'}
-                              // disable={row?.employeeDetails.payrollHold === true}
-                            />
-                          )}
-                        </TableCell>
-                      )}
+                      <TableCell align="right">{row.voterName || '-'}</TableCell>
+                      <TableCell align="right">{row.age || '-'}</TableCell>
+                      <TableCell align="right">{row.gender || '-'}</TableCell>
+                      <TableCell align="right">{row.houseNumber || '-'}</TableCell>
+                      {/* <TableCell align="right">{row.address || '-'}</TableCell> */}
+                      {/* <TableCell align="right">{row.mobileNumber || '-'}</TableCell> */}
+                      {/* <TableCell align="right">{row.status || '-'}</TableCell> */}
+                      {/* <TableCell align="right">{row.notes || '-'}</TableCell> */}
+                      
                       <TableCell className="payroll-table-val-align">
-                        {isEdit === row?.EPIC && (
-                          <HrmBlackBtn
-                            onClick={() => handleResetVoter(row)}
-                            label={'Reset'}
-                          />
+                        {votersList?.writeAccess && (
+                           <HrmBlackBtn
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent row click
+                                handleEditVoter(row);
+                              }}
+                              label={'Edit'}
+                            />
                         )}
                       </TableCell>
                     </TableRow>

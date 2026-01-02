@@ -14,6 +14,7 @@ import BackdropLoader from '@/components/Loader/index.jsx';
 import useAdmin from '../Admin/useAdmin.js';
 import useVoters from '../Dashboard/useVoters.js';
 import ViewVotersTable from './ViewVotersTable.jsx';
+import EditVoterDialog from './EditVoterDialog.jsx';
 
 const ViewVoter = () => {
   const [votersList, setVotersList] = useState([]);
@@ -27,6 +28,10 @@ const ViewVoter = () => {
   const [district, setDistrict] = useState([]);
   const [districtData, setDistrictData] = useState([]);
   const [assembly, setAssembly] = useState('');
+
+  // Dialog State
+  const [openDialog, setOpenDialog] = useState(false);
+  const [currentVoter, setCurrentVoter] = useState(null);
 
   const user = useSelector((state) => state.user.userData);
 
@@ -184,6 +189,16 @@ const ViewVoter = () => {
     }
   }, [getVotersAccessByPollingStationData]);
 
+  const handleEditVoter = (voter) => {
+    setCurrentVoter(voter);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setCurrentVoter(null);
+  };
+
   const handleUpdateVoter = (data) => {
     const assemblyDistrictCode = assembly.value.split('-')[0];
     const variables = {
@@ -196,6 +211,19 @@ const ViewVoter = () => {
       },
     };
     updateSingleVoter({ variables });
+    
+    // Optimistically update the list locally or wait for refetch (currently refetch logic isn't explicit but updating list is handled by cache usually, 
+    // but here we manually update local storage/state might be needed if not fully reactive)
+    // For now simplistic update:
+    const updatedVoters = votersList?.voters?.map(v => v.EPIC === data.EPIC ? data : v);
+    setVotersList(prev => ({...prev, voters: updatedVoters}));
+    
+    // Update Local Storage as well to keep it consistent
+    const key = `${state.value}-${parseInt(district.value)}-${parseInt(assemblyDistrictCode)}-${polling.value}`;
+    const newCacheData = {...votersList, voters: updatedVoters};
+    localStorage.setItem(key, JSON.stringify(newCacheData));
+    
+    handleCloseDialog();
   };
 
   return (
@@ -329,11 +357,20 @@ const ViewVoter = () => {
         >
           <ViewVotersTable
             votersList={votersList}
-            handleUpdateVoter={handleUpdateVoter}
+            handleEditVoter={handleEditVoter}
           />
         </Grid>
       </Grid>
       {/* </Card> */}
+
+      {openDialog && (
+        <EditVoterDialog
+          open={openDialog}
+          handleClose={handleCloseDialog}
+          voterData={currentVoter}
+          handleSave={handleUpdateVoter}
+        />
+      )}
     </>
   );
 };
