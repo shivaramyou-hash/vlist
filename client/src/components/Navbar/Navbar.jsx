@@ -25,6 +25,7 @@ import useLogout from '../../utils/useLogout';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setIsAdmin } from '@/redux/reducers/user.reducer';
+import logo from '../../assets/logo.png'; // Import the logo
 
 const drawerWidth = 240;
 
@@ -59,10 +60,11 @@ const StyledNavbar = styled('div')(({ theme }) => ({
   display: 'flex',
 }));
 
+// Update TitleWrapper to center logo or text properly
 const TitleWrapper = styled('div')({
   flexGrow: 1,
-  textAlign: 'center',
-  color: 'black', // Set text color to black
+  display: 'flex',
+  alignItems: 'center',
 });
 
 Navbar.propTypes = {
@@ -106,9 +108,11 @@ export default function Navbar({ children }) {
     <StyledNavbar>
       <AppBar
         sx={{
-          // background: '#FFC518',
-          background: '#dddddd',
+          // Update AppBar background to Primary Blue and text/icon color to White
+          background: '#1e40af', 
+          color: '#ffffff',
         }}
+        position="fixed" // Ensure it's fixed if that's the desired behavior, though simplified here
       >
         <Toolbar
           sx={{
@@ -122,14 +126,19 @@ export default function Navbar({ children }) {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }} // Hide menu icon when drawer is open
           >
-            <MenuIcon sx={{ color: 'black' }} />
+            <MenuIcon sx={{ color: 'white' }} />
           </IconButton>
 
-          {/* Logo on the left */}
-          <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-            <TitleWrapper>{'V-List Portal'}</TitleWrapper>
-          </Box>
+          {/* Logo Section */}
+          <TitleWrapper>
+              <img src={logo} alt="V-List Logo" style={{ height: '40px', marginRight: '10px', backgroundColor: 'white', padding: '2px', borderRadius: '4px' }} />
+             {/* Optional: Add text next to logo if needed, or remove TitleWrapper text */}
+              <Typography variant="h6" noWrap component="div" sx={{ color: 'white', fontWeight: 'bold' }}>
+                V-List Portal
+              </Typography>
+          </TitleWrapper>
 
           {/* Spacer to push other items right */}
           <Box sx={{ flexGrow: 1 }} />
@@ -146,10 +155,10 @@ export default function Navbar({ children }) {
               <Switch
                 checked={isAdmin}
                 onChange={handleToggleFlow}
-                color="default"
+                color="secondary" // Use secondary color (Amber usually) for switch
                 inputProps={{ 'aria-label': 'toggle admin flow' }}
               />
-              <Typography variant="caption" sx={{ mt: 0.5, color: 'black' }}>
+              <Typography variant="caption" sx={{ mt: 0.5, color: 'white' }}>
                 Admin
               </Typography>
             </Box>
@@ -157,17 +166,17 @@ export default function Navbar({ children }) {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton color="inherit" aria-label="notifications">
-              <NotificationsIcon sx={{ color: 'black' }} />
+              <NotificationsIcon sx={{ color: 'white' }} />
             </IconButton>
             <IconButton color="inherit" aria-label="account">
-              <AccountCircleIcon sx={{ color: 'black' }} />
+              <AccountCircleIcon sx={{ color: 'white' }} />
             </IconButton>
             <IconButton
               color="inherit"
               aria-label="logout"
               onClick={userLogout}
             >
-              <LogoutIcon sx={{ color: 'black' }} />
+              <LogoutIcon sx={{ color: 'white' }} />
             </IconButton>
           </Box>
         </Toolbar>
@@ -178,6 +187,9 @@ export default function Navbar({ children }) {
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
+            boxSizing: 'border-box',
+            backgroundColor: '#f3f4f6', // Light gray background for sidebar
+            color: '#1f2937' // Dark gray text
           },
         }}
         variant="persistent"
@@ -186,23 +198,22 @@ export default function Navbar({ children }) {
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronRightIcon sx={{ color: 'black' }} />{' '}
-            {/* Set icon color to black */}
+            <ChevronRightIcon sx={{ color: '#1f2937' }} /> {/* Black icon for sidebar */}
           </IconButton>
         </DrawerHeader>
+        {/* Helper function to style list items */}
+        {/* You can extract this to a separate component or styled component if needed */}
         {!isAdmin ? (
           <List>
             <ListItemButton onClick={() => navigate('/')}>
               <ListItemIcon>
-                <HomeIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <HomeIcon sx={{ color: '#1e40af' }} /> {/* Blue icons for menu items */}
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/voter')}>
               <ListItemIcon>
-                <AccountCircleIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <AccountCircleIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="View Voters" />
             </ListItemButton>
@@ -211,56 +222,49 @@ export default function Navbar({ children }) {
           <List>
             <ListItemButton>
               <ListItemIcon>
-                <HomeIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <HomeIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="Admin Home" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/createUser')}>
               <ListItemIcon>
-                <PersonAddAltIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <PersonAddAltIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="Create User" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/viewUser')}>
               <ListItemIcon>
-                <PersonSearchIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <PersonSearchIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="View User" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/extractVoterList')}>
               <ListItemIcon>
-                <AccountCircleIcon sx={{ color: 'black' }} />{' '}
+                <AccountCircleIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="Extract Voter List" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/adminUpload')}>
               <ListItemIcon>
-                <AccountCircleIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <AccountCircleIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="Create Voter List" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/createPollingStations')}>
               <ListItemIcon>
-                <AccountCircleIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <AccountCircleIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="Create Polling Stations" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/assignConstituency')}>
               <ListItemIcon>
-                <AddLocationAltIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <AddLocationAltIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="Assign Constituency" />
             </ListItemButton>
             <ListItemButton onClick={() => navigate('/roles')}>
               <ListItemIcon>
-                <AddLocationAltIcon sx={{ color: 'black' }} />{' '}
-                {/* Set icon color to black */}
+                <AddLocationAltIcon sx={{ color: '#1e40af' }} />
               </ListItemIcon>
               <ListItemText primary="Roles" />
             </ListItemButton>
