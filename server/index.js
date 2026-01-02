@@ -59,6 +59,8 @@ const runServer = async () => {
         "https://vlist-client-mja6e47euq-as.a.run.app",
         "https://vlist-client-883119806742.asia-southeast1.run.app",
         "https://vlist-client-33040848764.asia-southeast1.run.app",
+        "https://vlist-git-color-shivarams-projects-b0d524d5.vercel.app",
+        "https://vlist-one.vercel.app"
       ],
     }),
     json({ limit: "100mb" }),
