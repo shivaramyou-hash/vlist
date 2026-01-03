@@ -79,7 +79,11 @@ const Login = () => {
       password: password,
       orgId: 1,
     };
-    userLogin({ variables });
+    userLogin({ variables }).then((res) => {
+    if (res?.data) {
+      window.location.reload();
+    }
+  })
   };
   useEffect(() => {
     if (

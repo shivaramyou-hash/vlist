@@ -1,9 +1,9 @@
-// import { HrmYellowBtn } from '@/components/Button/Buttons';
-// import SearchIcon from '@mui/icons-material/Search';
+import { HrmYellowBtn } from '@/components/Button/Buttons';
+import SearchIcon from '@mui/icons-material/Search';
 import { Card, Grid, Box } from '@mui/material/';
-// import FormControl from '@mui/material/FormControl';
-// import InputAdornment from '@mui/material/InputAdornment';
-// import OutlinedInput from '@mui/material/OutlinedInput';
+import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import { useEffect, useState } from 'react';
 // import { viewcotercols } from '../../components/Table/index.jsx';
 // import PaginationTable from '../../components/Table/pagination';
@@ -19,7 +19,7 @@ import EditVoterDialog from './EditVoterDialog.jsx';
 const ViewVoter = () => {
   const [votersList, setVotersList] = useState([]);
 
-  // const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [assemblyOptions, setAssemblyOptions] = useState([]);
   const [pollingData, setPollingData] = useState([]);
   const [polling, setPolling] = useState('');
@@ -236,9 +236,9 @@ const ViewVoter = () => {
         <Grid item xs={12} sm={12} md={12} style={{ textAlign: 'center' }}>
           <div>
             <BackdropLoader loading={loading || voterLoading} />
-            <Grid item xs={12} sm={12} md={12} container pl={4}></Grid>
+
             <Grid container className="sortgrid">
-              <Grid item xs={12} sm={12} md={12} container ml={2}>
+              <Grid item xs={12} sm={12} md={12} container>
                 <Grid item xs={12} sm={12} md={3} p={1}>
                   <Box className="subsort">
                     <AutocompleteDropdown
@@ -323,30 +323,24 @@ const ViewVoter = () => {
             </Grid>
           </div>
         </Grid>
-        {/* <Grid className="d-flex view-client-consticy" m={2}>
-            <Grid className="view-consticy-searchdisplay">
-              <FormControl fullWidth>
-                <OutlinedInput
-                  id="outlined-adornment-amount"
-                  size="small"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  // onKeyPress={handleKeyPress}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  }
-                  placeholder={t('SEARCH_BY_CONSTITUENCY')}
-                />
-              </FormControl>
-            </Grid>
-            <HrmYellowBtn
-              className="search-client-consticy"
-              label={t('Search')}
-              // onClick={handleSearchData}
-            />
-          </Grid> */}
+        <Grid item xs={12} sm={12} md={12} container>
+          <Grid item xs={12} sm={12} md={12} p={1}>
+             <FormControl fullWidth>
+              <OutlinedInput
+                id="outlined-adornment-amount"
+                size="small"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+                placeholder="Search by Voter Name / EPIC"
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
         <Grid
           item
           xs={12}
@@ -356,7 +350,16 @@ const ViewVoter = () => {
           p={2}
         >
           <ViewVotersTable
-            votersList={votersList}
+            votersList={{
+              ...votersList,
+              voters: votersList?.voters?.filter(
+                (voter) =>
+                  voter?.voterName
+                    ?.toLowerCase()
+                    ?.includes(searchText?.toLowerCase()) ||
+                  voter?.EPIC?.toLowerCase()?.includes(searchText?.toLowerCase())
+              ),
+            }}
             handleEditVoter={handleEditVoter}
           />
         </Grid>
