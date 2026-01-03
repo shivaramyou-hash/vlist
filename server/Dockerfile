@@ -1,12 +1,18 @@
-FROM node:18-alpine
 
+FROM node:20-alpine
+
+# Create app directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package.json package-lock.json* ./
-RUN npm install --legacy-peer-deps
+# Install app dependencies
+COPY package.json /usr/src/app/
+RUN npm install
 
-COPY . .
+
+# Bundle app source
+COPY . /usr/src/app
 
 EXPOSE 4000
 
-CMD ["npm", "start"]
+CMD ["sh", "-c", "./cloud_sql_proxy -instances=hrm120825:asia-south1:hrm-prod-120825 & npm start"]
