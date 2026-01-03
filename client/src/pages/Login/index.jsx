@@ -19,7 +19,7 @@ const Login = () => {
       !!userLoginData
     ) {
       dispatch(login(userLoginData?.userLogin || null));
-      toast.success(userLoginData?.userLogin?.message);
+      // toast.success(userLoginData?.userLogin?.message);
       window.location.href = '/';
     } else if (
       (userLoginData?.userLogin?.token === null ||
@@ -35,17 +35,20 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password) {
+    
+
       const variables = {
-      email: email,
-      password: password,
-      orgId: 1,
-    };
-    userLogin({ variables }).then((res) => {
-        window.location.reload();
-   
-    });
-  };
-}
+        email: email,
+        password: password,
+        orgId: 1,
+      };
+      userLogin({ variables }).then((res) => {
+        console.log(res,"res")
+      });
+    } else {
+      toast.error('Please enter email and password');
+    }
+  }; 
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -58,7 +61,7 @@ const Login = () => {
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+          {/* <div className="rounded-md shadow-sm -space-y-px"> */}
             <div className="mb-4">
               <label htmlFor="email-address" className="block text-sm font-medium text-gray-700 mb-1">
                 Email address
@@ -91,7 +94,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-          </div>
+          {/* </div> */}
 
           <div>
             <button
