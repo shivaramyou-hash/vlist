@@ -27,7 +27,7 @@ const EditAssignConstituency = () => {
   const { userId } = useParams();
   // const [isEditing, setIsEditing] = useState(false);
   const [assemblyallData, setAssemblyAllData] = useState([]);
-  const [writeAccess, setWriteAccess] = useState('');
+  const [writeAccess, setWriteAccess] = useState([]);
   // const [editedRowIndex, setEditedRowIndex] = useState(null);
   const [stateValue, setStateValue] = useState([
     {
