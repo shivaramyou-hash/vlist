@@ -28,18 +28,21 @@ input[type="password"] {
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-input[type="submit"] {
+input[type="submit"],
+button[type="submit"] {
     margin-top: 10px;
     cursor: pointer;
     font-size: 15px;
-    background: #01d28e;
-    border: 1px solid #01d28e;
-    color: #fff;
+    background: #1e40af !important;
+    border: 1px solid #1e40af !important;
+    color: #ffffff !important;
     padding: 10px 20px;
+    transition: background-color 0.3s ease;
 }
 
-input[type="submit"]:hover {
-    background: #6cf0c2;
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+    background: #1e3a8a !important;
 }
 
 .button-container {

@@ -21,12 +21,15 @@ const AutocompleteDropdown = ({
   error,
   disabled,
   label,
+
+  className,
 }) => {
   const ref0 = useRef();
   return (
     <>
       <Autocomplete
         disabled={disabled}
+        className={className}
         disablePortal
         ref={ref0}
         id="combo-box-demo"

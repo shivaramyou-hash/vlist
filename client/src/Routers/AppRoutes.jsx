@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import useLogin from '@/pages/Login/useLogin';
 // import BackdropLoader from '../components/loader/BackdropLoader';
 
-import NavBar from '../components/Navbar/Navbar';
+import Layout from '../components/Layout/Layout';
 // import ApplicantNavBar from "../components/navBar/ApplicantNavBar";
 // import useLogin from '../pages/login/useLogin';
 // import useApplicant from "../pages/applicant/useApplicant";
@@ -58,9 +58,9 @@ const AppRoutes = () => {
                     userData={userData}
                     path={i.path}
                   >
-                    <NavBar>
+                    <Layout>
                       <Component />
-                    </NavBar>
+                    </Layout>
                   </ProtectedRoute>
                 )}
               </Suspense>

@@ -164,7 +164,7 @@ export default function EnhancedTable({ votersList, handleEditVoter }) {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
-      <Paper sx={{ width: '100%', mb: 2 }}>
+      <div className="w-full overflow-x-auto mb-4">
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -253,7 +253,7 @@ export default function EnhancedTable({ votersList, handleEditVoter }) {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </div>
     </Box>
   );
 }

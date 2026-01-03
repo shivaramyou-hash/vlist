@@ -1,14 +1,6 @@
-import { HrmYellowBtn } from '@/components/Button/Buttons';
-import SearchIcon from '@mui/icons-material/Search';
-import { Card, Grid, Box } from '@mui/material/';
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
-// import { viewcotercols } from '../../components/Table/index.jsx';
-// import PaginationTable from '../../components/Table/pagination';
 import { useSelector } from 'react-redux';
-import './viewVoters.css';
 import AutocompleteDropdown from '@/components/Inputs/AutocompleteDropdown.jsx';
 import BackdropLoader from '@/components/Loader/index.jsx';
 import useAdmin from '../Admin/useAdmin.js';
@@ -18,7 +10,6 @@ import EditVoterDialog from './EditVoterDialog.jsx';
 
 const ViewVoter = () => {
   const [votersList, setVotersList] = useState([]);
-
   const [searchText, setSearchText] = useState('');
   const [assemblyOptions, setAssemblyOptions] = useState([]);
   const [pollingData, setPollingData] = useState([]);
@@ -28,11 +19,8 @@ const ViewVoter = () => {
   const [district, setDistrict] = useState([]);
   const [districtData, setDistrictData] = useState([]);
   const [assembly, setAssembly] = useState('');
-
-  // Dialog State
   const [openDialog, setOpenDialog] = useState(false);
   const [currentVoter, setCurrentVoter] = useState(null);
-
   const user = useSelector((state) => state.user.userData);
 
   const {
@@ -44,8 +32,6 @@ const ViewVoter = () => {
     GetAssignedConstitutionsByDistrictData,
     getAssignedPollingStationsData,
     getAssignedPollingStations,
-    getVotersByPollingStation,
-    getVotersByPollingStationData,
     getVotersAccessByPollingStation,
     getVotersAccessByPollingStationData,
     loading,
@@ -72,7 +58,6 @@ const ViewVoter = () => {
 
   useEffect(() => {
     if (state) {
-      // Fetch the districts based on the selected state
       getDistrictsByState({
         variables: {
           stateCode: state['value'],
@@ -88,10 +73,7 @@ const ViewVoter = () => {
         value: district.districtCode,
       })
     );
-
-    // Sort the districtoptions array by district name
     districtoptions?.sort((a, b) => a.value - b.value);
-
     setDistrictData(districtoptions);
   }, [getDistrictsByStateData]);
 
@@ -115,7 +97,6 @@ const ViewVoter = () => {
           value: constitution?.assemblyConstName.split('-')[0],
         })
       );
-
     setAssemblyOptions(assemblyoptions);
   }, [GetAssignedConstitutionsByDistrictData]);
 
@@ -127,24 +108,20 @@ const ViewVoter = () => {
           value: polling.pollingStationCode,
         }))
         .sort((a, b) => a.value - b.value);
-
     setPollingData(pollingoptions);
   }, [getAssignedPollingStationsData]);
 
   useEffect(() => {
-    // Fetch all polling stations based on the selected state, district, and assembly constituency
     if (state && district && assembly) {
-      // Extract the district code from the assemblyConst object's value property
       const assemblyDistrictCode = assembly.value.split('-')[0];
       const variables = {
         input: {
           state: state.value,
-          district: district['value'], // Make sure district is an integer
-          assemblyConst: parseInt(assemblyDistrictCode), // Convert district code to integer
+          district: district['value'],
+          assemblyConst: parseInt(assemblyDistrictCode),
           userId: user?.[0]?.userId,
         },
       };
-
       getAssignedPollingStations({ variables });
     }
   }, [state, district, assembly]);
@@ -154,8 +131,8 @@ const ViewVoter = () => {
     const variables = {
       input: {
         state: state.value,
-        district: parseInt(district.value), // Make sure district is an integer
-        assemblyConst: parseInt(assemblyDistrictCode), // Convert district code to integer
+        district: parseInt(district.value),
+        assemblyConst: parseInt(assemblyDistrictCode),
         pollingStationCode: val.value,
         userId: user?.[0]?.userId,
       },
@@ -182,9 +159,7 @@ const ViewVoter = () => {
         assemblyDistrictCode
       )}-${polling.value}`;
       const votersStringifyData = JSON.stringify(votersData);
-
       localStorage.setItem(key, votersStringifyData);
-
       setVotersList(votersData);
     }
   }, [getVotersAccessByPollingStationData]);
@@ -211,160 +186,97 @@ const ViewVoter = () => {
       },
     };
     updateSingleVoter({ variables });
-    
-    // Optimistically update the list locally or wait for refetch (currently refetch logic isn't explicit but updating list is handled by cache usually, 
-    // but here we manually update local storage/state might be needed if not fully reactive)
-    // For now simplistic update:
     const updatedVoters = votersList?.voters?.map(v => v.EPIC === data.EPIC ? data : v);
     setVotersList(prev => ({...prev, voters: updatedVoters}));
     
-    // Update Local Storage as well to keep it consistent
     const key = `${state.value}-${parseInt(district.value)}-${parseInt(assemblyDistrictCode)}-${polling.value}`;
     const newCacheData = {...votersList, voters: updatedVoters};
     localStorage.setItem(key, JSON.stringify(newCacheData));
-    
     handleCloseDialog();
   };
 
   return (
-    <>
-      {/* <Card> */}
-      <Grid container>
-        <Grid item xs={12} sm={12} md={12} style={{ textAlign: 'center' }}>
-          <h3>{'View Voter List'}</h3>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} style={{ textAlign: 'center' }}>
-          <div>
-            <BackdropLoader loading={loading || voterLoading} />
-
-            <Grid container className="sortgrid">
-              <Grid item xs={12} sm={12} md={12} container>
-                <Grid item xs={12} sm={12} md={3} p={1}>
-                  <Box className="subsort">
-                    <AutocompleteDropdown
-                      onChange={(e, val) => {
-                        setState(val);
-                        setVotersList([]);
-                      }}
-                      options={stateData || []}
-                      name="state"
-                      value={state || ''}
-                      isOptionEqualToValue={(option, value) =>
-                        option?.value === value?.label
-                      }
-                      getOptionLabel={(option) => option?.label || ''}
-                      // size="large"
-                      label="State"
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={12} md={3} p={1}>
-                  <Box className="subsort">
-                    <AutocompleteDropdown
-                      name="district"
-                      onChange={(e, val) => {
-                        setDistrict(val);
-                        setVotersList([]);
-                      }}
-                      options={districtData || []}
-                      value={district}
-                      isOptionEqualToValue={(option, value) =>
-                        option?.label === value
-                      }
-                      getOptionLabel={(option) => option?.label || ''}
-                      // size="large"
-                      label="District"
-                    />
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={3} p={1}>
-                  <Box className="subsort">
-                    <AutocompleteDropdown
-                      name="assembly"
-                      onChange={(e, val) => {
-                        setAssembly(val);
-                        setVotersList([]);
-                        setPolling('');
-                      }}
-                      options={assemblyOptions || []}
-                      // name="client"
-                      value={assembly || ''}
-                      isOptionEqualToValue={(option, value) =>
-                        option?.label === value
-                      }
-                      getOptionLabel={(option) => option?.label || ''}
-                      // size="large"
-                      label="Assembly Constituency "
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={12} md={3} p={1}>
-                  <Box className="subsort">
-                    <AutocompleteDropdown
-                      name="pollingstation"
-                      onChange={(e, val) => {
-                        setPolling(val);
-                        getVotersData(val);
-                      }}
-                      options={pollingData || []}
-                      // name="client"
-                      value={polling || ''}
-                      isOptionEqualToValue={(option, value) =>
-                        option?.label === value
-                      }
-                      getOptionLabel={(option) => option?.label || ''}
-                      // size="large"
-                      label="Polling Station"
-                    />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} container>
-          <Grid item xs={12} sm={12} md={12} p={1}>
-             <FormControl fullWidth>
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                size="small"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                }
-                placeholder="Search by Voter Name / EPIC"
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={12}
-          style={{ textAlign: 'center' }}
-          p={2}
-        >
-          <ViewVotersTable
-            votersList={{
-              ...votersList,
-              voters: votersList?.voters?.filter(
-                (voter) =>
-                  voter?.voterName
-                    ?.toLowerCase()
-                    ?.includes(searchText?.toLowerCase()) ||
-                  voter?.EPIC?.toLowerCase()?.includes(searchText?.toLowerCase())
-              ),
-            }}
-            handleEditVoter={handleEditVoter}
+    <div className="container mx-auto">
+      <div className="text-center mb-6">
+        <h3 className="text-2xl font-bold text-gray-800">View Voter List</h3>
+      </div>
+      
+      <BackdropLoader loading={loading || voterLoading} />
+      
+      {/* Filters & Search */}
+      <div className="bg-white rounded-lg shadow-sm p-4 mb-6 border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <AutocompleteDropdown
+            className="w-full"
+            onChange={(e, val) => { setState(val); setVotersList([]); }}
+            options={stateData || []}
+            name="state"
+            value={state || ''}
+            isOptionEqualToValue={(option, value) => option?.value === value?.label}
+            getOptionLabel={(option) => option?.label || ''}
+            label="State"
           />
-        </Grid>
-      </Grid>
-      {/* </Card> */}
+           <AutocompleteDropdown
+            className="w-full"
+            onChange={(e, val) => { setDistrict(val); setVotersList([]); }}
+            options={districtData || []}
+            name="district"
+            value={district || ''}
+            isOptionEqualToValue={(option, value) => option?.label === value}
+            getOptionLabel={(option) => option?.label || ''}
+            label="District"
+          />
+           <AutocompleteDropdown
+            className="w-full"
+            onChange={(e, val) => { setAssembly(val); setVotersList([]); setPolling(''); }}
+            options={assemblyOptions || []}
+            name="assembly"
+            value={assembly || ''}
+            isOptionEqualToValue={(option, value) => option?.label === value}
+            getOptionLabel={(option) => option?.label || ''}
+            label="Assembly Constituency"
+          />
+           <AutocompleteDropdown
+            className="w-full"
+            onChange={(e, val) => { setPolling(val); getVotersData(val); }}
+            options={pollingData || []}
+            name="pollingstation"
+            value={polling || ''}
+            isOptionEqualToValue={(option, value) => option?.label === value}
+            getOptionLabel={(option) => option?.label || ''}
+            label="Polling Station"
+          />
+        </div>
+
+        {/* Search Bar - Full Width & Aligned */}
+        <div className="relative w-full">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Search by Voter Name / EPIC"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Table Section */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <ViewVotersTable
+          votersList={{
+            ...votersList,
+            voters: votersList?.voters?.filter(
+              (voter) =>
+                voter?.voterName?.toLowerCase()?.includes(searchText?.toLowerCase()) ||
+                voter?.EPIC?.toLowerCase()?.includes(searchText?.toLowerCase())
+            ),
+          }}
+          handleEditVoter={handleEditVoter}
+        />
+      </div>
 
       {openDialog && (
         <EditVoterDialog
@@ -374,7 +286,7 @@ const ViewVoter = () => {
           handleSave={handleUpdateVoter}
         />
       )}
-    </>
+    </div>
   );
 };
 
