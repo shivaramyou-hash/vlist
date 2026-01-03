@@ -37,6 +37,8 @@ const server = new ApolloServer({
 const startServer = async () => {
   await server.start();
 
+  app.set("trust proxy", true);
+
   app.use(
     "/api/v1/graphql",
     cors({
