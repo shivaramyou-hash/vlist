@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
+  "scripts": {   
+    "install": "npm install --legacy-peer-deps",
     "start": "nodemon index.js"
   },
   "keywords": [],
