@@ -15,4 +15,4 @@ COPY . /usr/src/app
 
 EXPOSE 4000
 
-CMD ["sh", "-c", "./cloud_sql_proxy -instances=hrm120825:asia-south1:hrm-prod-120825 & npm start"]
+CMD ["sh", "-c", "./cloud_sql_proxy -instances=hrm120825:asia-south1:hrm120825 & npm start"]
