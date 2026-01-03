@@ -35,7 +35,7 @@ const server = new ApolloServer({
   ],
 });
 
-const runServer = async () => {
+const startServer = async () => {
   await server.start();
 
   //   app.use(
@@ -69,13 +69,20 @@ const runServer = async () => {
       context: verifyToken,
     })
   );
-
-  const port = process.env.PORT || 4000;
-
- await new Promise((resolve) =>
-  httpServer.listen(port, "0.0.0.0", resolve)
-);
-  console.log(`🚀 Server ready at http://localhost:${port}/api/v1/graphql`);
 };
 
-runServer();
+if (process.env.NODE_ENV !== "production") {
+  const runServer = async () => {
+    await startServer();
+    const port = process.env.PORT || 4000;
+    await new Promise((resolve) =>
+      httpServer.listen(port, "0.0.0.0", resolve)
+    );
+    console.log(`🚀 Server ready at http://localhost:${port}/api/v1/graphql`);
+  };
+  runServer();
+} else {
+  startServer();
+}
+
+module.exports = app;
