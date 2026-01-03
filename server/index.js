@@ -46,7 +46,6 @@ const startServer = async () => {
         "https://vlist.humanwrk.com",
         "https://vlist-one.vercel.app",
       ],
-      credentials: true,
       methods: ["GET", "POST", "OPTIONS"],
     }),
     express.json({ limit: "100mb" }),
